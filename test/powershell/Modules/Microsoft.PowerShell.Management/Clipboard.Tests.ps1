@@ -41,5 +41,15 @@ Describe 'Clipboard cmdlet tests' -Tag CI {
             'world' | Set-Clipboard -Append
             Get-Clipboard -Raw | Should -BeExactly "hello$([Environment]::NewLine)world"
         }
+
+        It 'Set-Clipboard -PassThru returns single object' {
+            $result = 'hello' | Set-Clipboard -PassThru
+            $result | Should -BeExactly 'hello'
+        }
+
+        It 'Set-Clipboard -PassThru returns multiple objects' {
+            $result = 'hello', 'world' | Set-Clipboard -PassThru
+            $result | Should -BeExactly @('hello', 'world')
+        }
     }
 }
