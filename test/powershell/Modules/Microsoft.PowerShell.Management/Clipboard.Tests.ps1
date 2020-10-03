@@ -42,14 +42,19 @@ Describe 'Clipboard cmdlet tests' -Tag CI {
             Get-Clipboard -Raw | Should -BeExactly "hello$([Environment]::NewLine)world"
         }
 
+        It 'Set-Clipboard should not return object' {
+            $result = 'hello' | Set-Clipboard
+            $result | Should -BeNullOrEmpty
+        }
+
         It 'Set-Clipboard -PassThru returns single object' {
             $result = 'hello' | Set-Clipboard -PassThru
-            $result | Should -BeExactly 'hello'
+            $result | Should -BeExactly (Get-Clipboard)
         }
 
         It 'Set-Clipboard -PassThru returns multiple objects' {
             $result = 'hello', 'world' | Set-Clipboard -PassThru
-            $result | Should -BeExactly @('hello', 'world')
+            $result | Should -BeExactly (Get-Clipboard)
         }
     }
 }
